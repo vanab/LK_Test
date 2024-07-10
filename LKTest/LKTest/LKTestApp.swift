@@ -9,9 +9,19 @@ import SwiftUI
 
 @main
 struct LKTestApp: App {
+    @StateObject private var appCoordinator = AppCoordinator(path: NavigationPath())
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack(path: $appCoordinator.path) {
+                appCoordinator.view()
+                    .navigationDestination(
+                        for: ImagesCoordinator.self
+                    ) { coordinator in
+                        coordinator.view()
+                    }
+            }
+            .environmentObject(appCoordinator)
         }
     }
 }
