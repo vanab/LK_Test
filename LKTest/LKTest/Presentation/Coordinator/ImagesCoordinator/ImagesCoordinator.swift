@@ -9,8 +9,9 @@ import Foundation
 import SwiftUI
 
 enum ImagesPage {
-    case list, detail(id: Int)
+    case list, detail(imageModel: ImageModel)
 }
+
 
 final class ImagesCoordinator: Hashable {
     @Binding var navigationPath: NavigationPath
@@ -32,8 +33,8 @@ final class ImagesCoordinator: Hashable {
         switch self.page {
             case .list:
                 listView()
-            case .detail(let id):
-                detailView(id: id)
+            case .detail(let imageModel):
+                detailView(imageModel: imageModel)
         }
     }
 
@@ -47,12 +48,12 @@ final class ImagesCoordinator: Hashable {
     ) -> Bool {
         lhs.id == rhs.id
     }
-
+    
     private func listView() -> some View {
         let listViewPresenter = ImageListPresenter(
-            output: .init(goToDetail: { id in
+            output: .init(goToDetail: { imageModel in
                 self.push(ImagesCoordinator(
-                    page: .detail(id: id),
+                    page: .detail(imageModel: imageModel),
                     navigationPath: self.$navigationPath
                 ))
             })
@@ -60,8 +61,8 @@ final class ImagesCoordinator: Hashable {
         return ImagesListView(presenter: listViewPresenter)
     }
     
-    private func detailView(id: Int) -> some View {
-        let detailPresenter = ImageDetailPresenter(photoId: id)
+    private func detailView(imageModel: ImageModel) -> some View {
+        let detailPresenter = ImageDetailPresenter(imageModel: imageModel)
         return ImageDetailView(presenter: detailPresenter)
     }
 

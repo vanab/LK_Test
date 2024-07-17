@@ -7,16 +7,12 @@
 
 import Foundation
 
-class ImageDetailPresenter: ImageDetailPresenterProtocol {
+class ImageDetailPresenter: ObservableObject {
     
-    let photoId: Int
+    let imageModel: ImageModel
     
-    init(photoId: Int) {
-        self.photoId = photoId
-    }
-    
-    func loadData() {
-        
+    init(imageModel: ImageModel) {
+        self.imageModel = imageModel
     }
     
 }
